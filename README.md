@@ -20,7 +20,7 @@ Search page:
 - **Clean UI** - Built with Bootstrap 5
 
 ## Live Demo
-Try it here: https://aproject-production.up.railway.app/
+Try it here: [https://web-production-d558d.up.railway.app/]
 
 ## Tech Stack
 - **Backend**: Django, Python
