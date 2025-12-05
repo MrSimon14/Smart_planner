@@ -1,0 +1,216 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block page_header %}
+<div class="search-header">
+    <h1>Поиск заметок</h1>
+    <form method="get" class="search-form">
+        {% csrf_token %}
+        <div class="search-input-group">
+            {{ form.query }}
+            <button type="submit" class="search-btn">
+                Найти
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock page_header %}
+
+{% block content %}
+{% if query %}
+    <div class="search-results">
+        <p class="results-info">
+            Найдено заметок: <strong>{{ results_count }}</strong>
+            {% if query %} по запросу "{{ query }}"{% endif %}
+        </p>
+        
+        {% if results %}
+            <div class="notes-list">
+                {% for note in results %}
+                    <div class="search-result-card">
+                        <div class="result-header">
+                            <h3 class="result-topic">
+                                <a href="{% url 'smart_planner:topic' note.topic.id %}">
+                                    {{ note.topic.text }}
+                                </a>
+                            </h3>
+                            <span class="result-date">{{ note.date_added|date:'d M Y, H:i' }}</span>
+                        </div>
+                        <div class="result-content">
+                            {{ note.text|linebreaks }}
+                        </div>
+                        <div class="result-actions">
+                            <a href="{% url 'smart_planner:edit_note' note.id %}" class="edit-btn">
+                                Редактировать
+                            </a>
+                            <a href="{% url 'smart_planner:topic' note.topic.id %}" class="view-topic-btn">
+                                Перейти к теме
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <p>По вашему запросу ничего не найдено.</p>
+                <p>Попробуйте изменить ключевые слова или проверить правописание.</p>
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="search-instructions">
+        <p>Введите ключевые слова в поле поиска выше, чтобы найти нужные заметки.</p>
+    </div>
+{% endif %}
+
+<style>
+.search-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-input-group input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.search-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+.results-info {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.search-result-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.result-topic {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.result-topic a {
+    color: #6366f1;
+    text-decoration: none;
+}
+
+.result-topic a:hover {
+    text-decoration: underline;
+}
+
+.result-date {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.result-content {
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.result-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.edit-btn, .view-topic-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background: #6366f1;
+    color: white;
+    border: 1px solid #6366f1;
+}
+
+.edit-btn:hover {
+    background: #4f46e5;
+    color: white;
+    text-decoration: none;
+}
+
+.view-topic-btn {
+    background: transparent;
+    color: #6366f1;
+    border: 1px solid #6366f1;
+}
+
+.view-topic-btn:hover {
+    background: #6366f1;
+    color: white;
+    text-decoration: none;
+}
+
+.no-results, .search-instructions {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #6b7280;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .search-input-group {
+        flex-direction: column;
+    }
+    
+    .result-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .result-actions {
+        justify-content: center;
+    }
+}
+</style>
+{% endblock content %}

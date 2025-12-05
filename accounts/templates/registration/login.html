@@ -1,0 +1,243 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <h1 class="login-title">Вход в систему</h1>
+        <p class="login-subtitle">Введите ваши учетные данные для доступа к планеру</p>
+        
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username" class="form-label">Имя пользователя</label>
+                <input type="text" name="username" id="id_username" class="form-input" required placeholder="Введите имя пользователя">
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password" class="form-label">Пароль</label>
+                <div class="password-input-group">
+                    <input type="password" name="password" id="id_password" class="form-input" required placeholder="Введите пароль">
+                    <button class="toggle-password" type="button">
+                        <span class="eye-icon">👁</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                Войти в систему
+            </button>
+        </form>
+        
+        <div class="login-links">
+            <p>Нет аккаунта? <a href="{% url 'accounts:register' %}" class="link">Зарегистрироваться</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 2rem 1rem;
+}
+
+.login-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-title {
+    color: #374151;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+.password-input-group {
+    position: relative;
+    display: flex;
+}
+
+.password-input-group .form-input {
+    padding-right: 3.5rem;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.toggle-password {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-left: none;
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+}
+
+.toggle-password:hover {
+    background: #f1f5f9;
+}
+
+.eye-icon {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.toggle-password:hover .eye-icon {
+    transform: scale(1.1);
+}
+
+.login-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.login-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.login-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.login-links p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.link {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.link:hover {
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2rem 1.5rem;
+        margin: 0 -0.5rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+    }
+    
+    .login-container {
+        align-items: flex-start;
+        padding-top: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('.toggle-password');
+    const passwordField = document.getElementById('id_password');
+    const eyeIcon = document.querySelector('.eye-icon');
+    
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function() {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.textContent = '👁';
+                this.style.background = '#e5e7eb';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.textContent = '👁';
+                this.style.background = '#f8fafc';
+            }
+        });
+    }
+    
+    // Фокус на поле username при загрузке
+    const usernameField = document.getElementById('id_username');
+    if (usernameField) {
+        usernameField.focus();
+    }
+});
+</script>
+{% endblock content %}

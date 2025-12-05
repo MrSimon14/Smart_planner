@@ -1,0 +1,194 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block page_header %}
+  <div class="topic-header">
+    <h1>{{ topic.text }}</h1>
+    <a href="{% url 'smart_planner:new_note' topic.id %}" class="add-note-btn">
+      Добавить заметку
+    </a>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  {% for note in notes %}
+    <div class="note-card">
+      <div class="note-header">
+        <div class="note-meta">
+          <span class="note-date">{{ note.date_added|date:'d M Y, H:i' }}</span>
+        </div>
+        <div class="note-actions">
+          <a href="{% url 'smart_planner:edit_note' note.id %}" class="edit-btn">
+            Редактировать
+          </a>
+          <a href="{% url 'smart_planner:delete_note' note.id %}" class="delete-btn">
+            Удалить
+          </a>
+        </div>
+      </div>
+      <div class="note-content">
+        {{ note.text|linebreaks }}
+      </div>
+    </div>
+  {% empty %}
+    <div class="empty-state">
+      <p>Для этой темы еще не было добавлено ни одной заметки.</p>
+      <a href="{% url 'smart_planner:new_note' topic.id %}" class="add-note-btn">
+        Создать первую заметку
+      </a>
+    </div>
+  {% endfor %}
+
+  <style>
+    .topic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .topic-header h1 {
+      margin: 0;
+      color: #374151;
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+
+    .add-note-btn {
+      background: #6366f1;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .add-note-btn:hover {
+      background: #4f46e5;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      color: white;
+      text-decoration: none;
+    }
+
+    .note-card {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .note-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .note-meta {
+      flex: 1;
+    }
+
+    .note-date {
+      color: #6b7280;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .edit-btn {
+      color: #6366f1;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.2s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .edit-btn:hover {
+      background: #6366f1;
+      color: white;
+      text-decoration: none;
+    }
+
+    .delete-btn {
+      color: #ef4444;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.2s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .delete-btn:hover {
+      background: #ef4444;
+      color: white;
+      text-decoration: none;
+    }
+
+    .note-content {
+      color: #374151;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #6b7280;
+    }
+
+    .empty-state p {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+    }
+
+    @media (max-width: 768px) {
+      .topic-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .topic-header h1 {
+        text-align: center;
+      }
+
+      .note-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .note-actions {
+        justify-content: center;
+      }
+
+      .note-card {
+        margin: 0 -0.5rem 1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+    }
+  </style>
+{% endblock content %}

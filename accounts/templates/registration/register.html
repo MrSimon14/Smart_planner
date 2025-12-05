@@ -1,0 +1,276 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <h1 class="register-title">Создание аккаунта</h1>
+        <p class="register-subtitle">Заполните форму ниже для регистрации в планере</p>
+        
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username" class="form-label">Имя пользователя</label>
+                <input type="text" name="username" id="id_username" class="form-input" required placeholder="Придумайте имя пользователя">
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password1" class="form-label">Пароль</label>
+                <div class="password-input-group">
+                    <input type="password" name="password1" id="id_password1" class="form-input" required placeholder="Создайте надежный пароль">
+                    <button class="toggle-password" type="button" data-target="id_password1">
+                        <span class="eye-icon">👁</span>
+                    </button>
+                </div>
+                {% if form.password1.errors %}
+                    <div class="error-message">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password2" class="form-label">Подтверждение пароля</label>
+                <div class="password-input-group">
+                    <input type="password" name="password2" id="id_password2" class="form-input" required placeholder="Повторите пароль">
+                    <button class="toggle-password" type="button" data-target="id_password2">
+                        <span class="eye-icon">👁</span>
+                    </button>
+                </div>
+                {% if form.password2.errors %}
+                    <div class="error-message">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="register-btn">
+                Создать аккаунт
+            </button>
+        </form>
+        
+        <div class="register-links">
+            <p>Уже есть аккаунт? <a href="{% url 'accounts:login' %}" class="link">Войти в систему</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem 1rem;
+}
+
+.register-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    max-width: 450px;
+    width: 100%;
+}
+
+.register-title {
+    color: #374151;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.register-subtitle {
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+.password-input-group {
+    position: relative;
+    display: flex;
+}
+
+.password-input-group .form-input {
+    padding-right: 3.5rem;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.toggle-password {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-left: none;
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+}
+
+.toggle-password:hover {
+    background: #f1f5f9;
+}
+
+.eye-icon {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.toggle-password:hover .eye-icon {
+    transform: scale(1.1);
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.375rem;
+}
+
+.register-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.register-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.register-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.register-links p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.link {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.link:hover {
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .register-card {
+        padding: 2rem 1.5rem;
+        margin: 0 -0.5rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+    }
+    
+    .register-container {
+        align-items: flex-start;
+        padding-top: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButtons = document.querySelectorAll('.toggle-password');
+    
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const passwordField = document.getElementById(targetId);
+            const eyeIcon = this.querySelector('.eye-icon');
+            
+            if (passwordField && eyeIcon) {
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    eyeIcon.textContent = '👁';
+                    this.style.background = '#e5e7eb';
+                } else {
+                    passwordField.type = 'password';
+                    eyeIcon.textContent = '👁';
+                    this.style.background = '#f8fafc';
+                }
+            }
+        });
+    });
+    
+    // Фокус на поле username при загрузке
+    const usernameField = document.getElementById('id_username');
+    if (usernameField) {
+        usernameField.focus();
+    }
+});
+</script>
+{% endblock content %}

@@ -1,0 +1,209 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block content %}
+<div class="new-topic-container">
+    <div class="new-topic-card">
+        <h1 class="form-title">Новая тема</h1>
+        <p class="form-subtitle">Создайте новую тему для организации ваших заметок</p>
+        
+        <form action="{% url 'smart_planner:new_topic' %}" method="post" class="topic-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.text.id_for_label }}" class="form-label">Название темы</label>
+                {{ form.text }}
+                <div class="form-hint">Дайте понятное название, которое отражает содержание заметок</div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    Создать тему
+                </button>
+                <a href="{% url 'smart_planner:topics' %}" class="cancel-btn">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.new-topic-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 2rem 1rem;
+}
+
+.new-topic-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-title {
+    color: #374151;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.form-subtitle {
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.topic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.form-hint {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.submit-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 0.875rem 2.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.submit-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.cancel-btn {
+    background: #6b7280;
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.cancel-btn:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .new-topic-container {
+        align-items: flex-start;
+        padding-top: 1rem;
+    }
+    
+    .new-topic-card {
+        padding: 2rem 1.5rem;
+        margin: 0 -0.5rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .submit-btn,
+    .cancel-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Стили для Django формы */
+.form-group input {
+    box-sizing: border-box;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.querySelector('input[type="text"]');
+    if (input) {
+        // Фокус на поле ввода при загрузке
+        input.focus();
+        
+        // Выделение текста при фокусе
+        input.addEventListener('focus', function() {
+            this.select();
+        });
+    }
+});
+</script>
+{% endblock content %}

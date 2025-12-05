@@ -1,0 +1,380 @@
+{% extends 'smart_planner/base.html' %}
+
+{% block content %}
+<div class="index-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Организуйте свои мысли</h1>
+            <p class="hero-description">
+                Умный Планер помогает превращать поток мыслей в четкий план действий. 
+                Организуйте свои идеи, группируйте по темам и достигайте поставленных целей 
+                с помощью простого и интуитивного инструмента.
+            </p>
+            
+            {% if user.is_authenticated %}
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ topics_count|default:"0" }}</div>
+                        <div class="stat-label">активных тем</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ notes_count|default:"0" }}</div>
+                        <div class="stat-label">всего заметок</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <a href="{% url 'smart_planner:topics' %}" class="primary-btn">
+                        Перейти к темам
+                    </a>
+                    <a href="{% url 'smart_planner:new_topic' %}" class="secondary-btn">
+                        Создать новую тему
+                    </a>
+                </div>
+            {% else %}
+                <div class="hero-actions">
+                    <a href="{% url 'accounts:register' %}" class="primary-btn">
+                        Начать использовать
+                    </a>
+                    <a href="{% url 'accounts:login' %}" class="secondary-btn">
+                        Войти в систему
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="features-section">
+        <h2 class="section-title">Как это работает</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">1</div>
+                </div>
+                <h3 class="feature-title">Создавайте темы</h3>
+                <p class="feature-description">
+                    Организуйте свои проекты и идеи по темам. 
+                    Каждая тема представляет собой отдельную категорию для ваших заметок.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">2</div>
+                </div>
+                <h3 class="feature-title">Добавляйте заметки</h3>
+                <p class="feature-description">
+                    Записывайте мысли, задачи и идеи в удобном редакторе. 
+                    Все изменения сохраняются автоматически.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">3</div>
+                </div>
+                <h3 class="feature-title">Сортируйте и находите</h3>
+                <p class="feature-description">
+                    Быстрый доступ ко всем вашим заметкам. 
+                    Легко находите нужную информацию благодаря четкой структуре.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+    <div class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Начните сегодня</h2>
+            <p class="cta-description">
+                Присоединяйтесь к тысячам пользователей, которые уже организовали 
+                свои мысли с помощью Умного Планера
+            </p>
+            <a href="{% url 'accounts:register' %}" class="cta-btn">
+                Создать аккаунт
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.index-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1.5rem;
+    padding: 4rem 2rem;
+    margin-bottom: 4rem;
+    color: white;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    background: white;
+    color: #667eea;
+    padding: 1rem 2.5rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    background: transparent;
+    color: white;
+    border-color: white;
+    text-decoration: none;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.secondary-btn:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    text-decoration: none;
+}
+
+.features-section {
+    padding: 0 2rem 4rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    color: #374151;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    margin-bottom: 1.5rem;
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    background: #6366f1;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 auto;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+.feature-description {
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.cta-section {
+    background: #f8fafc;
+    border-radius: 1.5rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+.cta-description {
+    font-size: 1.25rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.cta-btn {
+    background: #6366f1;
+    color: white;
+    padding: 1.25rem 3rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.cta-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 3rem 1.5rem;
+        margin: 0 -1rem 3rem;
+        border-radius: 0;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+    }
+    
+    .hero-stats {
+        gap: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+    
+    .features-section {
+        padding: 0 1rem 3rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-section {
+        padding: 3rem 1.5rem;
+        margin: 0 -1rem;
+        border-radius: 0;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+    }
+    
+    .cta-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+</style>
+{% endblock content %}
