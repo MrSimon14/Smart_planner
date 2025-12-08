@@ -2,13 +2,13 @@
 
 A clean and intuitive web application for organizing notes with smart topic-based navigation.
 
-Main page:
+## Main page:
 ![Main page](screenshots/main.png) 
-Topics page:
+## Topics page:
 ![Topics page](screenshots/topics.png)
-Notes page:
+## Notes page:
 ![Notes page](screenshots/notes.png)
-Search page:
+## Search page:
 ![Search page](screenshots/search.png)
 
 ## Features
