@@ -1,0 +1,18 @@
+{
+  "builds": [
+    {
+      "src": "smart_planner/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "smart_planner/wsgi.py"
+    }
+  ]
+}
